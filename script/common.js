@@ -7,6 +7,9 @@ document.addEventListener("DOMContentLoaded", function () {
     textTranslate = getUrlParam("text");
     document.getElementById("inputKey").value = APIKEY;
     document.getElementById('inputText').value = textTranslate;
+
+    if (!APIKEY || !textTranslate) return;
+
     translateWithGemini(textTranslate, APIKEY, document.getElementById('outputText'))
 });
 
