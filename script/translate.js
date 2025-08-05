@@ -52,11 +52,11 @@ const createPrompt = (text) => {
             `;
 }
 
-const translateWithGemini = async (text, apiKey, outputTextElement) => {
+const translateWithGemini = async (text, apiKey, outputTextElement, useDefaultPrompt) => {
   let url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-lite:generateContent?key=${apiKey}`;
 
   let requestBody = {
-    contents: [{ parts: [{ text: createPrompt(text) }] }]
+    contents: [{ parts: [{ text: useDefaultPrompt ? createPrompt(text) : text }] }]
   };
 
   // 🟢 Hiển thị popup "Đang dịch..."

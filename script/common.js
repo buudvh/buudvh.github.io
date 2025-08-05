@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (!APIKEY || !textTranslate) return;
 
-    translateWithGemini(textTranslate, APIKEY, document.getElementById('outputText'))
+    translateWithGemini(textTranslate, APIKEY, document.getElementById('outputText'), true);
 });
 
 

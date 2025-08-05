@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Translate by Gemini AI App</title>
-    <script src="./script/common.js?v=202508041500"></script>
-    <script src="./script/translate.js?v=202508041500"></script>
+    <script src="./script/common.js?v=202508050928"></script>
+    <script src="./script/translate.js?v=202508050928"></script>
 
     <style>
         button {
@@ -27,6 +27,9 @@
 <body >
     <h1>Translate by Gemini AI App</h1>
     <form id="translationForm">
+        <label for="inputDefaultPrompt">Dùng prompt mặc định:</label>
+        <input type="checkbox" id="inputDefaultPrompt" checked/>
+        <br>
         <label for="inputKey">Nhập key Gemini:</label>
         <input type="password" id="inputKey" />
         <br>
@@ -59,7 +62,7 @@
             }
 
 
-            translateWithGemini(inputText, key, outputTextElement);
+            translateWithGemini(inputText, key, outputTextElement, document.getElementById("inputDefaultPrompt").checked);
         }
 
         function copyText() {
