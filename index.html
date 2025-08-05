@@ -1,91 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Translate by Gemini AI App</title>
-    <script src="./script/common.js?v=202508050928"></script>
-    <script src="./script/translate.js?v=202508050928"></script>
-
-    <style>
-        button {
-            margin-top: 10px;
-            padding: 8px 12px;
-            background-color: #4caf50;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-
-        #copyMessage {
-            color: green;
-            margin-top: 5px;
-        }
-    </style>
+    <script src="./script/common.js?v=202508051018"></script>
+    <script src="./script/translate.js?v=202508051018"></script>
+    <link href="./css/style.css?v=202508051018" rel="stylesheet">
 </head>
-<body >
+
+<body>
     <h1>Translate by Gemini AI App</h1>
     <form id="translationForm">
-        <label for="inputDefaultPrompt">Dùng prompt mặc định:</label>
-        <input type="checkbox" id="inputDefaultPrompt" checked/>
-        <br>
-        <label for="inputKey">Nhập key Gemini:</label>
-        <input type="password" id="inputKey" />
-        <br>
-        <label for="inputText">Nhập văn bản tiếng Trung:</label>
-        <textarea id="inputText" name="text" rows="20" style="width: 100%;resize: none;" required=""></textarea>
+        <div class="flex-div"><label for="inputDefaultPrompt">Dùng prompt mặc định:</label>
+            <input type="checkbox" id="inputDefaultPrompt" checked />
+        </div>
+        <div class="flex-div"><label for="inputKey">Nhập key Gemini:</label>
+            <input type="password" id="inputKey" />
+        </div>
+        <label style="padding-left: 10px;" for="inputText">Nhập văn bản tiếng Trung:</label>
+        <div class="flex-div">
+            <textarea id="inputText" name="text" rows="5" required></textarea>
+        </div>
 
-        <button type="button" onclick="translateText()">Dịch</button>
-        <button type="button" onclick="copyText()">Copy</button>
+        <div class="flex-div"><button type="button" onclick="translateText()">Dịch</button>
+            <button type="button" onclick="copyText()">Copy</button>
+        </div>
+
     </form>
 
     <div id="copyMessage"></div>
     <p id="outputText"></p>
-
-    <script>
-        async function translateText() {          
-            const inputTextElement = document.getElementById('inputText');
-            const outputTextElement = document.getElementById('outputText');
-            const hanViet = document.getElementById('hanViet');
-
-            const key = document.getElementById("inputKey").value;
-            if (key.trim() === '') {
-                outputTextElement.innerHTML = 'Vui lòng nhập key Gemini.';
-                return;
-            }
-            
-            const inputText = inputTextElement.value;
-            if (inputText.trim() === '') {
-                outputTextElement.innerHTML = 'Vui lòng nhập tiếng Trung.';
-                return;
-            }
-
-
-            translateWithGemini(inputText, key, outputTextElement, document.getElementById("inputDefaultPrompt").checked);
-        }
-
-        function copyText() {
-            const outputTextElement = document.getElementById('outputText');
-            const range = document.createRange();
-            range.selectNode(outputTextElement);
-            window.getSelection().removeAllRanges();
-            window.getSelection().addRange(range);
-            document.execCommand('copy');
-            window.getSelection().removeAllRanges();
-
-            showCopyMessage();  // Hiển thị thông báo khi đã sao chép
-        }
-
-        function showCopyMessage() {
-            const copyMessageElement = document.getElementById('copyMessage');
-            copyMessageElement.textContent = 'Đã sao chép!';
-        }
-
-        function clearCopyMessage() {
-            const copyMessageElement = document.getElementById('copyMessage');
-            copyMessageElement.textContent = '';
-        }
-    </script>
 </body>
+
 </html>

@@ -87,3 +87,46 @@ const translateWithGemini = async (text, apiKey, outputTextElement, useDefaultPr
     outputTextElement.innerText = "Lỗi khi gọi API: " + error.message;
   }
 };
+
+async function translateText() {
+  const inputTextElement = document.getElementById('inputText');
+  const outputTextElement = document.getElementById('outputText');
+  const hanViet = document.getElementById('hanViet');
+
+  const key = document.getElementById("inputKey").value;
+  if (key.trim() === '') {
+    outputTextElement.innerHTML = 'Vui lòng nhập key Gemini.';
+    return;
+  }
+
+  const inputText = inputTextElement.value;
+  if (inputText.trim() === '') {
+    outputTextElement.innerHTML = 'Vui lòng nhập tiếng Trung.';
+    return;
+  }
+
+
+  translateWithGemini(inputText, key, outputTextElement, document.getElementById("inputDefaultPrompt").checked);
+}
+
+function copyText() {
+  const outputTextElement = document.getElementById('outputText');
+  const range = document.createRange();
+  range.selectNode(outputTextElement);
+  window.getSelection().removeAllRanges();
+  window.getSelection().addRange(range);
+  document.execCommand('copy');
+  window.getSelection().removeAllRanges();
+
+  showCopyMessage();  // Hiển thị thông báo khi đã sao chép
+}
+
+function showCopyMessage() {
+  const copyMessageElement = document.getElementById('copyMessage');
+  copyMessageElement.textContent = 'Đã sao chép!';
+}
+
+function clearCopyMessage() {
+  const copyMessageElement = document.getElementById('copyMessage');
+  copyMessageElement.textContent = '';
+}
