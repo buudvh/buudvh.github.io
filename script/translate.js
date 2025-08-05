@@ -1,12 +1,41 @@
-const createPrompt = (text) => {
-  // return `Cho bạn đoạn văn bản: "${text}".
-  //              Hãy dịch đoạn văn bản đó thành Tiếng Việt (Vietnamese) với các điều kiện sau:
-  //              - Tuân thủ chặt chẽ bối cảnh và sắc thái ban đầu.
-  //              - Sự lưu loát tự nhiên như người bản xứ.
-  //              - Không có thêm giải thích/diễn giải.
-  //              - Bảo toàn thuật ngữ 1:1 cho các thuật ngữ/danh từ riêng.
-  //              Chỉ in ra bản dịch mà không có dấu ngoặc kép.`;
-  return ` Bạn là một chuyên gia ngôn ngữ chuyên về tiếng Trung, tiếng Việt, tiếng Nhật và tiếng Anh. 
+const CONST_TYPE = {
+  TRANSLATE: '0',
+  WORD: '1',
+  CHAT: '2'
+};
+let APIKEY = null;
+let textTranslate = null;
+
+document.addEventListener("DOMContentLoaded", function () {
+  console.log("DOM is ready!");
+  APIKEY = getUrlParam("key");
+  textTranslate = getUrlParam("text");
+  document.getElementById("inputKey").value = APIKEY;
+  document.getElementById('inputText').value = textTranslate;
+
+  if (!APIKEY || !textTranslate) return;
+
+  translateWithGemini(textTranslate, APIKEY, document.getElementById('outputText'), CONST_TYPE.WORD);
+});
+
+
+const getUrlParam = (name) => {
+  const params = new URLSearchParams(window.location.search);
+  return params.get(name);
+}
+
+const createPrompt = (text, promptType) => {
+  switch (promptType) {
+    case CONST_TYPE.TRANSLATE:
+      return `Cho bạn đoạn văn bản: "${text}".
+               Hãy dịch đoạn văn bản đó thành Tiếng Việt (Vietnamese) với các điều kiện sau:
+               - Tuân thủ chặt chẽ bối cảnh và sắc thái ban đầu.
+               - Sự lưu loát tự nhiên như người bản xứ.
+               - Không có thêm giải thích/diễn giải.
+               - Bảo toàn thuật ngữ 1:1 cho các thuật ngữ/danh từ riêng.
+               Chỉ in ra bản dịch mà không có dấu ngoặc kép.`;
+    case CONST_TYPE.WORD:
+      return ` Bạn là một chuyên gia ngôn ngữ chuyên về tiếng Trung, tiếng Việt, tiếng Nhật và tiếng Anh. 
           Nhiệm vụ của bạn là phân tích cụm từ tiếng Trung được cung cấp và đưa ra một giải thích toàn diện bằng tiếng Việt,
           tập trung vào sắc thái và bối cảnh văn hóa của nó.
 
@@ -50,13 +79,17 @@ const createPrompt = (text) => {
               - [Tên tiếng Anh - không có thì không hiển thị dòng này]
               ...........
             `;
+    default:
+      return text;
+  }
+
 }
 
-const translateWithGemini = async (text, apiKey, outputTextElement, useDefaultPrompt) => {
+const translateWithGemini = async (text, apiKey, outputTextElement, promptType) => {
   let url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-lite:generateContent?key=${apiKey}`;
 
   let requestBody = {
-    contents: [{ parts: [{ text: useDefaultPrompt ? createPrompt(text) : text }] }]
+    contents: [{ parts: [{ text: createPrompt(text, promptType) }] }]
   };
 
   // 🟢 Hiển thị popup "Đang dịch..."
@@ -88,10 +121,9 @@ const translateWithGemini = async (text, apiKey, outputTextElement, useDefaultPr
   }
 };
 
-async function translateText() {
+const translateText = async (promptType) => {
   const inputTextElement = document.getElementById('inputText');
   const outputTextElement = document.getElementById('outputText');
-  const hanViet = document.getElementById('hanViet');
 
   const key = document.getElementById("inputKey").value;
   if (key.trim() === '') {
@@ -105,11 +137,10 @@ async function translateText() {
     return;
   }
 
-
-  translateWithGemini(inputText, key, outputTextElement, document.getElementById("inputDefaultPrompt").checked);
+  translateWithGemini(inputText, key, outputTextElement, promptType);
 }
 
-function copyText() {
+const copyText = () => {
   const outputTextElement = document.getElementById('outputText');
   const range = document.createRange();
   range.selectNode(outputTextElement);
@@ -121,12 +152,12 @@ function copyText() {
   showCopyMessage();  // Hiển thị thông báo khi đã sao chép
 }
 
-function showCopyMessage() {
+const showCopyMessage = () => {
   const copyMessageElement = document.getElementById('copyMessage');
   copyMessageElement.textContent = 'Đã sao chép!';
 }
 
-function clearCopyMessage() {
+const clearCopyMessage = () => {
   const copyMessageElement = document.getElementById('copyMessage');
   copyMessageElement.textContent = '';
 }

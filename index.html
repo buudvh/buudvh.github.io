@@ -13,9 +13,6 @@
 <body>
     <h1>Translate by Gemini AI App</h1>
     <form id="translationForm">
-        <div class="flex-div"><label for="inputDefaultPrompt">Dùng prompt mặc định:</label>
-            <input type="checkbox" id="inputDefaultPrompt" checked />
-        </div>
         <div class="flex-div"><label for="inputKey">Nhập key:</label>
             <input type="password" id="inputKey" />
         </div>
@@ -24,7 +21,10 @@
             <textarea id="inputText" name="text" rows="5" required></textarea>
         </div>
 
-        <div class="flex-div"><button type="button" onclick="translateText()">Dịch</button>
+        <div class="flex-div">
+            <button type="button" onclick="translateText('0')">Dịch</button>
+            <button type="button" onclick="translateText('1')">Phân tích từ</button>
+            <button type="button" onclick="translateText('2')">Chat</button>
             <button type="button" onclick="copyText()">Copy</button>
         </div>
 
