@@ -1,2 +1,3 @@
 # buudvh.github.io
 Dịch bằng Gemini AI
+https://buudvh.github.io/?key=key_gemini&text=%s
