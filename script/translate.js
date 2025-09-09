@@ -80,7 +80,10 @@ const createPrompt = (text, promptType) => {
               ...........
             `;
     default:
-      return text;
+      return `
+        ${text}
+        Trả lời tôi bằng Tiếng Việt
+      `;
   }
 
 }
