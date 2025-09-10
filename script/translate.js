@@ -164,3 +164,7 @@ const clearCopyMessage = () => {
   const copyMessageElement = document.getElementById('copyMessage');
   copyMessageElement.textContent = '';
 }
+
+const toExt = () => {
+  location.href = "/ext.html"
+}
