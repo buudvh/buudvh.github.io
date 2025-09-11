@@ -16,25 +16,29 @@ const listExt = [
 
 const onStartUp = () => {
     let strHtml = "";
+    let showExtensionInfor = "";
+    let tempArr = [];
     listExt.forEach((ext, index) => {
-        strHtml += `<div class="ext-item">${ext}</div>`
+        tempArr = ext.split("/");
+        showExtensionInfor = `Creater: ${tempArr[3]}  &emsp; Plugin: ${tempArr.pop()}`;
+        strHtml += `<div class="ext-item" data-ext="${ext}"><span></span> ${showExtensionInfor}</div>`
     })
-
-    document.getElementById("id-list-ext").innerHTML = strHtml;
 
     document.getElementById("id-list-ext").innerHTML = strHtml;
 
     document.querySelectorAll(".ext-item").forEach(item => {
         item.addEventListener("click", async () => {
-            const url = item.textContent.trim();
+            const url = item.getAttribute("data-ext");
             try {
                 document.querySelectorAll(".ext-item").forEach(item => {
                     item.style.background = "";
+                    item.querySelector("span").textContent = "";
                 });
                 await navigator.clipboard.writeText(url);
                 item.style.background = "#d4edda"; // highlight nhẹ khi copy thành công
+                item.querySelector("span").textContent = "✔Copied";
             } catch (err) {
-                console.error("Copy thất bại:", err);
+                alert("Copy thất bại:", err);
             }
         });
     });

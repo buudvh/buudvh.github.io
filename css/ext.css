@@ -5,3 +5,7 @@
     text-overflow: ellipsis;
     line-height: 1.6;
 }
+
+.ext-item > span {
+    color: red;
+}
