@@ -1,7 +1,7 @@
 const listExt = [
     "https://raw.githubusercontent.com/buudvh/leech_story_ext/main/plugin.json",
     "https://raw.githubusercontent.com/lovebook98/leech_story_ext/main/plugin.json",
-    "https://raw.githubusercontent.com/Darkrai9x/vbook-extensions/refs/heads/master/repository.json",
+    "https://raw.githubusercontent.com/Darkrai9x/vbook-extensions/master/plugin.json",
     "https://raw.githubusercontent.com/Darkrai9x/vbook-extensions/refs/heads/master/translate.json",
     "https://raw.githubusercontent.com/Darkrai9x/vbook-extensions/refs/heads/master/tts.json",
     "https://raw.githubusercontent.com/Darkrai9x/vbook-extensions/master/chinese_plugin.json",
