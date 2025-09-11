@@ -9,3 +9,15 @@
 .ext-item > span {
     color: red;
 }
+
+.trans-item {
+    cursor: pointer;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.6;
+}
+
+.trans-item > span {
+    color: red;
+}
