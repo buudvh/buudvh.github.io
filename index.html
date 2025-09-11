@@ -5,13 +5,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Translate by Gemini AI App</title>
-    <script src="./script/translate.js?v=202509090811"></script>
-    <link href="./css/style.css?v=202509090811" rel="stylesheet">
+    <script src="./script/translate.js?v=202509110910"></script>
+    <link href="./css/translate.css?v=202509110910" rel="stylesheet">
 </head>
 
 <body>
     <h1>Translate by Gemini AI App</h1>
     <form id="translationForm">
+        <div class="flex-div">
+            <button type="button" onclick="toExt()">To ext page</button>
+        </div>
+        <br>
         <div class="flex-div"><label for="inputKey">Nhập key:</label>
             <input type="password" id="inputKey" />
         </div>
@@ -25,7 +29,6 @@
             <button type="button" onclick="translateText('1')">Phân tích từ</button>
             <button type="button" onclick="translateText('2')">Chat</button>
             <button type="button" onclick="copyText()">Copy</button>
-            <button type="button" onclick="toExt()">Ext</button>
         </div>
 
     </form>
