@@ -166,5 +166,9 @@ const clearCopyMessage = () => {
 }
 
 const toExt = () => {
-  location.href = "../ext.html"
+  if (location.href.endsWith(".html")) {
+    location.href = "/ext.html"
+  } else {
+    location.href = location.href + "ext.html"
+  }
 }
