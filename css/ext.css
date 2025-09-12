@@ -11,11 +11,16 @@
 }
 
 .trans-item {
-    cursor: pointer;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     line-height: 1.6;
+    display: flex;
+    gap: 50px;
+}
+
+.trans-item > div{
+    cursor: pointer;
 }
 
 .trans-item > span {

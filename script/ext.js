@@ -34,16 +34,19 @@ const onStartUp = () => {
     addEvent();
 }
 
-const showTrans = () =>{
+const showTrans = () => {
     let strHtml = "";
     listTrans.forEach((trans, index) => {
-        strHtml += `<div class="trans-item" data-trans="${trans.url}"><span></span> ${trans.name}</div>`
+        strHtml += `<div class="trans-item" data-trans="${trans.url}">
+                        <div onclick="copyTrans(this, '${trans.name}')"><span></span> ${trans.name}</div>
+                        <div onclick="copyTrans(this, '${trans.url}')"><span></span> Url</div>
+                    </div>`;
     })
 
     document.getElementById("id-list-ext").innerHTML = strHtml;
 }
 
-const showExt = () =>{
+const showExt = () => {
     let strHtml = "";
     let showExtensionInfor = "";
     let tempArr = [];
@@ -56,7 +59,7 @@ const showExt = () =>{
     document.getElementById("id-list-translate").innerHTML = strHtml;
 }
 
-const showData = () =>{
+const showData = () => {
     showExt();
     showTrans();
 }
@@ -102,4 +105,16 @@ const addEventTrans = () => {
             }
         });
     });
+}
+
+const copyTrans = async (objThis, text) => {
+    document.querySelectorAll(".trans-item > div").forEach(item => {
+        item.style.background = "";
+        item.querySelector("span").textContent = "";
+    });
+
+    await navigator.clipboard.writeText(text);
+
+    objThis.querySelector("span").textContent = "✔Copied";
+    objThis.style.background = "#d4edda";
 }
