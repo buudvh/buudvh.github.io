@@ -6,7 +6,7 @@
     line-height: 1.6;
 }
 
-.ext-item > span {
+.ext-item>span {
     color: red;
 }
 
@@ -19,10 +19,10 @@
     gap: 50px;
 }
 
-.trans-item > div{
+.trans-item>div {
     cursor: pointer;
 }
 
-.trans-item > span {
+.trans-item>div>span {
     color: red;
 }

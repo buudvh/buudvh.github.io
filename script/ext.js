@@ -27,6 +27,18 @@ const listTrans = [
         "name": "Mazii",
         "url": "https://mazii.net/vi-VN/search/word/javi/%s"
     },
+    {
+        "name": "Gemini",
+        "url": "https://buudvh.github.io/translate.github.io/?key=AIzaSyAmdwCWHujBwu_1l20eqJGXGGHGZIt3tNk&text=%s"
+    },
+    {
+        "name": "Gemini2",
+        "url": "https://buudvh.github.io/translate.github.io/?key=AIzaSyAvIoQs0wDbo6paLFJ8zEDi8i5w7RtuBLg&text=%s"
+    },
+    {
+        "name": "Gemini3",
+        "url": "https://buudvh.github.io/translate.github.io/?key=AIzaSyCix9-fqQa3-ZOtRJ3DUFBb495Or4coYxQ&text=%s"
+    },
 ]
 
 const onStartUp = () => {
