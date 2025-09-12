@@ -49,7 +49,7 @@ const onStartUp = () => {
 const showTrans = () => {
     let strHtml = "";
     listTrans.forEach((trans, index) => {
-        strHtml += `<div class="trans-item" data-trans="${trans.url}">
+        strHtml += `<div class="trans-item">
                         <div onclick="copyTrans(this, '${trans.name}')"><span></span> ${trans.name}</div>
                         <div onclick="copyTrans(this, '${trans.url}')"><span></span> Url</div>
                     </div>`;
