@@ -16,8 +16,8 @@ const listExt = [
 
 const listTrans = [
     {
-        "name": "volcengine",
-        "url": "https://translate.volcengine.com/?category=&home_language=zh&source_language=detect&target_language=vi&text=%s"
+        "name": "Quillbot",
+        "url": "https://quillbot.com/translate?sl=zh&tl=vi&tone=auto&text=%s"
     },
     {
         "name": "G.Translate",
