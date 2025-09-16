@@ -39,6 +39,10 @@ const listTrans = [
         "name": "Gemini3",
         "url": "https://buudvh.github.io/translate.github.io/?key=AIzaSyCix9-fqQa3-ZOtRJ3DUFBb495Or4coYxQ&text=%s"
     },
+    {
+        "name": "Yandex",
+        "url": "https://translate.yandex.com/?source_lang=zh&target_lang=vi&text=%s"
+    },
 ]
 
 const onStartUp = () => {
