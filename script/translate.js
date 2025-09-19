@@ -5,17 +5,24 @@ const CONST_TYPE = {
 };
 let APIKEY = null;
 let textTranslate = null;
+let AIType = null;
 
 document.addEventListener("DOMContentLoaded", function () {
   console.log("DOM is ready!");
   APIKEY = getUrlParam("key");
   textTranslate = getUrlParam("text");
+  AIType = getUrlParam("aitype") ?? "0";
   document.getElementById("inputKey").value = APIKEY;
   document.getElementById('inputText').value = textTranslate;
+  document.getElementById('select-ai-type').value = AIType;
 
   if (!APIKEY || !textTranslate) return;
 
-  translateWithGemini(textTranslate, APIKEY, document.getElementById('outputText'), CONST_TYPE.WORD);
+  if (document.getElementById('select-ai-type').value == "0") {
+    translateWithGemini(textTranslate, APIKEY, document.getElementById('outputText'), CONST_TYPE.WORD);
+  } else {
+    translateWithGroq(textTranslate, APIKEY, document.getElementById('outputText'), CONST_TYPE.WORD);
+  }
 });
 
 
@@ -124,6 +131,56 @@ const translateWithGemini = async (text, apiKey, outputTextElement, promptType) 
   }
 };
 
+const translateWithGroq = async (text, apiKey, outputTextElement, promptType) => {
+  let url = `https://api.groq.com/openai/v1/chat/completions`;
+
+  let requestBody = {
+    "model": "meta-llama/llama-4-maverick-17b-128e-instruct",
+    "messages": [
+      {
+        "role": "user",
+        "content": createPrompt(text, promptType),
+      }
+    ]
+  };
+
+  let headers = {
+    "Content-Type": "application/json",
+    "Authorization": `Bearer ${apiKey}`,
+  }
+
+  // 🟢 Hiển thị popup "Đang dịch..."
+  outputTextElement.innerText = "Đang dịch...";
+
+  try {
+    let response = await fetch(url, {
+      method: "POST",
+      headers: headers,
+      body: JSON.stringify(requestBody)
+    });
+
+    if (!response.ok) {
+      outputTextElement.innerText = `Lỗi HTTP: ${response.status}`;
+    }
+
+    let result = await response.json();
+    console.log("Kết quả API:", result);
+
+    if (result && result.choices && result.choices.length > 0) {
+      let translatedText = "";
+      result.choices.forEach(element => {
+        translatedText += element.message.content;
+      });
+      outputTextElement.innerText = translatedText; // 🟢 Cập nhật popup với bản dịch
+    } else {
+      outputTextElement.innerText = "Lỗi: API không trả về kết quả hợp lệ.";
+    }
+  } catch (error) {
+    console.error("Lỗi khi gọi API:", error);
+    outputTextElement.innerText = "Lỗi khi gọi API: " + error.message;
+  }
+};
+
 const translateText = async (promptType) => {
   const inputTextElement = document.getElementById('inputText');
   const outputTextElement = document.getElementById('outputText');
@@ -139,8 +196,11 @@ const translateText = async (promptType) => {
     outputTextElement.innerHTML = 'Vui lòng nhập tiếng Trung.';
     return;
   }
-
-  translateWithGemini(inputText, key, outputTextElement, promptType);
+  if (document.getElementById('select-ai-type').value == "0") {
+    translateWithGroq(inputText, key, outputTextElement, promptType);
+  } else {
+    translateWithGroq(inputText, key, outputTextElement, promptType);
+  }
 }
 
 const copyText = () => {

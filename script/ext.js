@@ -40,6 +40,10 @@ const listTrans = [
         "url": "https://buudvh.github.io/translate.github.io/?key=AIzaSyCix9-fqQa3-ZOtRJ3DUFBb495Or4coYxQ&text=%s"
     },
     {
+        "name": "Groq",
+        "url": "https://buudvh.github.io/translate.github.io/?key=&aitype=1&text=%s"
+    },
+    {
         "name": "Yandex",
         "url": "https://translate.yandex.com/?source_lang=zh&target_lang=vi&text=%s"
     },
