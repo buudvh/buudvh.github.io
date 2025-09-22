@@ -45,7 +45,7 @@ Translate the following Chinese text into Vietnamese with the following style:
 - The output should contain only the translated text, with no extra notes, titles, or explanations.  
 
 Chinese input:
-“${text}”
+${text}
 `;
     case CONST_TYPE.WORD:
       return `You are a linguistic expert in Chinese with deep knowledge of Sino-Vietnamese, Japanese, and English transliterations.  
@@ -53,8 +53,9 @@ Analyze the given Chinese word or phrase with the following requirements:
 
 - Explain its meaning in Vietnamese, including literal meaning and possible contextual meanings.  
 - Provide at least one example sentence in Chinese and translate it into Vietnamese.  
-- If the word/phrase is possibly a transliteration of a name (Japanese, English, or other), list all likely corresponding names.  
-- The output must only contain the analysis, without extra notes or titles.
+- If the word/phrase is possibly a transliteration of a proper name (Japanese, English, or other), list all likely corresponding names.  
+- The output must be written entirely in Vietnamese, without any English.  
+- Do not include titles, labels, or extra notes — only the analysis.  
 
 Chinese input:
 “${text}”
