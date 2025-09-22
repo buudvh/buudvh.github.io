@@ -44,8 +44,8 @@ Translate the following Chinese text into Vietnamese with the following style:
 - The output must read smoothly and elegantly in Vietnamese, as if it were originally written in this style;  
 - The output should contain only the translated text, with no extra notes, titles, or explanations.  
 
-${text}:
-“{Chinese text to translate}”
+Chinese input:
+“${text}”
 `;
     case CONST_TYPE.WORD:
       return `You are a linguistic expert in Chinese with deep knowledge of Sino-Vietnamese, Japanese, and English transliterations.  
@@ -56,8 +56,8 @@ Analyze the given Chinese word or phrase with the following requirements:
 - If the word/phrase is possibly a transliteration of a name (Japanese, English, or other), list all likely corresponding names.  
 - The output must only contain the analysis, without extra notes or titles.
 
-${text}:
-“{Chinese word or phrase}”
+Chinese input:
+“${text}”
 `;
     default:
       return `
