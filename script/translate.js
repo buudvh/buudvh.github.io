@@ -34,18 +34,23 @@ const getUrlParam = (name) => {
 const createPrompt = (text, promptType) => {
   switch (promptType) {
     case CONST_TYPE.TRANSLATE:
-      return `You are a professional translator specialized in Xianxia and Eastern fantasy literature.  
-Translate the following Chinese text into Vietnamese with the following style:
+      return `You are a professional translator specialized in translating Chinese into Vietnamese.  
+Your task is to translate the given Chinese text according to the following rules:
 
-- Mysterious, mystical, full of imagination;  
-- With an ancient, poetic tone, infused with spiritual energy, cultivation, and Daoist flavor;  
-- Keep all proper names unchanged; if necessary, transliterate them into Sino-Vietnamese;  
-- Stay faithful to the original meaning without adding commentary or omitting details;  
-- The output must read smoothly and elegantly in Vietnamese, as if it were originally written in this style;  
-- The output should contain only the translated text, with no extra notes, titles, or explanations.  
+Instructions:
+- Strictly preserve the original context and nuance.  
+- Ensure the Vietnamese translation is fluent and natural, as if written by a native speaker.  
+- Do not add explanations, notes, or commentary.  
+- Maintain a 1:1 preservation of terminology and proper nouns (keep original or transliterate consistently).  
 
-Chinese input:
+Context:
+This translation is for literary text, possibly Xianxia/Fantasy style, so the output should retain the atmosphere, tone, and stylistic elements of the source.  
+
+Input (Chinese):
 ${text}
+
+Expected Output (Vietnamese):
+Only the translated Vietnamese text that follows the above requirements.
 `;
     case CONST_TYPE.WORD:
       return `You are a linguistic expert in Chinese with deep knowledge of Sino-Vietnamese, Japanese, and English transliterations.  
@@ -171,7 +176,7 @@ const translateText = async (promptType) => {
     return;
   }
   if (document.getElementById('select-ai-type').value == "0") {
-    translateWithGroq(inputText, key, outputTextElement, promptType);
+    translateWithGemini(inputText, key, outputTextElement, promptType);
   } else {
     translateWithGroq(inputText, key, outputTextElement, promptType);
   }
