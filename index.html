@@ -5,42 +5,83 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Translate by AI App</title>
-    <script src="./script/translate.js?v=202509231035"></script>
-    <link href="./css/translate.css?v=202509231035" rel="stylesheet">
+    <script src="./script/translate.js?v=202509261055"></script>
+    <link href="./css/translate.css?v=202509261055" rel="stylesheet">
 </head>
 
 <body>
-    <h1>Translate by AI App</h1>
-    <form id="translationForm">
-        <div class="flex-div">
-            <button type="button" onclick="toExt()">To ext page</button>
+    <div class="container">
+        <div class="header">
+            <h1>🌐 Translate by AI</h1>
+            <p>Dịch thuật thông minh với AI - Hỗ trợ Trung - Việt</p>
+            <div class="feature-badges">
+                <div class="badge">
+                    🤖 AI-Powered
+                </div>
+                <div class="badge">
+                    ⚡ Nhanh chóng
+                </div>
+                <div class="badge">
+                    🛡️ Bảo mật
+                </div>
+            </div>
         </div>
-        <div class="flex-div">
-            <select name="select-ai-type" id="select-ai-type">
-                <option value="0">Gemini</option>
-                <option value="1">Groq</option>
-            </select>
+
+        <div class="main-content">
+            <div class="form-group">
+                <label for="inputKey"><i class="fas fa-key"></i> API Key</label>
+                <div class="input-wrapper">
+                    <input type="password" id="inputKey" class="api-key-input" placeholder="Nhập API key của bạn...">
+                    <select id="select-ai-type" class="ai-select">
+                        <option value="0">Gemini</option>
+                        <option value="1">Groq</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="text-areas">
+                <div class="text-area-wrapper">
+                    <label for="inputText">
+                        <i class="fas fa-edit"></i>
+                        Nhập văn bản tiếng Trung
+                    </label>
+                    <textarea id="inputText" class="text-area"
+                        placeholder="Nhập hoặc dán văn bản tiếng Trung cần dịch..."></textarea>
+                </div>
+
+                <div class="text-area-wrapper">
+                    <label for="outputText">
+                        <i class="fas fa-language"></i>
+                        Kết quả dịch tiếng Việt
+                    </label>
+                    <div id="outputText" class="text-area output-area"
+                        placeholder="Kết quả dịch sẽ hiển thị ở đây..." readonly></textarea>
+                </div>
+            </div>
         </div>
+
+        <div id="copyMessage" class="copy-message"></div>
         <br>
-        <div class="flex-div"><label for="inputKey">Nhập key:</label>
-            <input type="password" id="inputKey" />
-        </div>
-        <label style="padding-left: 10px;" for="inputText">Nhập văn bản tiếng Trung:</label>
-        <div class="flex-div">
-            <textarea id="inputText" name="text" rows="5" required></textarea>
+        <div class="button-group">
+            <button class="btn btn-primary" onclick="translateText('0')">
+                <i class="fas fa-exchange-alt"></i>
+                Dịch
+            </button>
+            <button class="btn btn-secondary" onclick="translateText('1')">
+                <i class="fas fa-search"></i>
+                Phân tích từ
+            </button>
+            <button class="btn btn-success" onclick="translateText('2')">
+                <i class="fas fa-comments"></i>
+                Chat
+            </button>
+            <button class="btn btn-copy" onclick="copyText()">
+                <i class="fas fa-copy"></i>
+                Copy
+            </button>
         </div>
 
-        <div class="flex-div">
-            <button type="button" onclick="translateText('0')">Dịch</button>
-            <button type="button" onclick="translateText('1')">Phân tích từ</button>
-            <button type="button" onclick="translateText('2')">Chat</button>
-            <button type="button" onclick="copyText()">Copy</button>
-        </div>
-
-    </form>
-
-    <div id="copyMessage"></div>
-    <p id="outputText"></p>
+    </div>
 </body>
 
 </html>

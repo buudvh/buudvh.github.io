@@ -18,13 +18,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
   if (!APIKEY || !textTranslate) return;
 
-  if (document.getElementById('select-ai-type').value == "0") {
-    translateWithGemini(textTranslate, APIKEY, document.getElementById('outputText'), CONST_TYPE.WORD);
-  } else {
-    translateWithGroq(textTranslate, APIKEY, document.getElementById('outputText'), CONST_TYPE.WORD);
-  }
+  translateText(CONST_TYPE.WORD);
 });
-
 
 const getUrlParam = (name) => {
   const params = new URLSearchParams(window.location.search);
@@ -35,43 +30,42 @@ const createPrompt = (text, promptType) => {
   switch (promptType) {
     case CONST_TYPE.TRANSLATE:
       return `You are a professional translator specialized in translating Chinese into Vietnamese.  
-Your task is to translate the given Chinese text according to the following rules:
+        Your task is to translate the given Chinese text according to the following rules:
 
-Instructions:
-- Strictly preserve the original context and nuance.  
-- Ensure the Vietnamese translation is fluent and natural, as if written by a native speaker.  
-- Do not add explanations, notes, or commentary.  
-- Maintain a 1:1 preservation of terminology and proper nouns (keep original or transliterate consistently).  
+        Instructions:
+        - Strictly preserve the original context and nuance.  
+        - Ensure the Vietnamese translation is fluent and natural, as if written by a native speaker.  
+        - Do not add explanations, notes, or commentary.  
+        - Maintain a 1:1 preservation of terminology and proper nouns (keep original or transliterate consistently).  
 
-Context:
-This translation is for literary text, possibly Xianxia/Fantasy style, so the output should retain the atmosphere, tone, and stylistic elements of the source.  
+        Context:
+        This translation is for literary text, possibly Xianxia/Fantasy style, so the output should retain the atmosphere, tone, and stylistic elements of the source.  
 
-Input (Chinese):
-${text}
+        Input (Chinese):
+        ${text}
 
-Expected Output (Vietnamese):
-Only the translated Vietnamese text that follows the above requirements.
-`;
+        Expected Output (Vietnamese):
+        Only the translated Vietnamese text that follows the above requirements.
+        `;
     case CONST_TYPE.WORD:
       return `You are a linguistic expert in Chinese with deep knowledge of Sino-Vietnamese, Japanese, and English transliterations.  
-Analyze the given Chinese word or phrase with the following requirements:
+        Analyze the given Chinese word or phrase with the following requirements:
 
-- Explain its meaning in Vietnamese, including literal meaning and possible contextual meanings.  
-- Provide at least one example sentence in Chinese and translate it into Vietnamese.  
-- If the word/phrase is possibly a transliteration of a proper name (Japanese, English, or other), list all likely corresponding names.  
-- The output must be written entirely in Vietnamese, without any English.  
-- Do not include titles, labels, or extra notes — only the analysis.  
+        - Explain its meaning in Vietnamese, including literal meaning and possible contextual meanings.  
+        - Provide at least one example sentence in Chinese and translate it into Vietnamese.  
+        - If the word/phrase is possibly a transliteration of a proper name (Japanese, English, or other), list all likely corresponding names.  
+        - The output must be written entirely in Vietnamese, without any English.  
+        - Do not include titles, labels, or extra notes — only the analysis.  
 
-Chinese input:
-“${text}”
-`;
+        Chinese input:
+        "${text}"
+        `;
     default:
       return `
-        ${text}
-        Trả lời tôi bằng Tiếng Việt
-      `;
+                ${text}
+                Trả lời tôi bằng Tiếng Việt
+              `;
   }
-
 }
 
 const translateWithGemini = async (text, apiKey, outputTextElement, promptType) => {
@@ -81,8 +75,8 @@ const translateWithGemini = async (text, apiKey, outputTextElement, promptType) 
     contents: [{ parts: [{ text: createPrompt(text, promptType) }] }]
   };
 
-  // 🟢 Hiển thị popup "Đang dịch..."
-  outputTextElement.innerText = "Đang dịch...";
+  // Hiển thị loading
+  outputTextElement.innerHTML = '<div class="loading">Đang dịch...</div>';
 
   try {
     let response = await fetch(url, {
@@ -93,6 +87,7 @@ const translateWithGemini = async (text, apiKey, outputTextElement, promptType) 
 
     if (!response.ok) {
       outputTextElement.innerText = `Lỗi HTTP: ${response.status}`;
+      return;
     }
 
     let result = await response.json();
@@ -100,7 +95,7 @@ const translateWithGemini = async (text, apiKey, outputTextElement, promptType) 
 
     if (result && result.candidates && result.candidates.length > 0) {
       let translatedText = result.candidates[0].content.parts[0].text;
-      outputTextElement.innerText = translatedText; // 🟢 Cập nhật popup với bản dịch
+      outputTextElement.innerText = translatedText;
     } else {
       outputTextElement.innerText = "Lỗi: API không trả về kết quả hợp lệ.";
     }
@@ -128,8 +123,8 @@ const translateWithGroq = async (text, apiKey, outputTextElement, promptType) =>
     "Authorization": `Bearer ${apiKey}`,
   }
 
-  // 🟢 Hiển thị popup "Đang dịch..."
-  outputTextElement.innerText = "Đang dịch...";
+  // Hiển thị loading
+  outputTextElement.innerHTML = '<div class="loading">Đang dịch...</div>';
 
   try {
     let response = await fetch(url, {
@@ -140,6 +135,7 @@ const translateWithGroq = async (text, apiKey, outputTextElement, promptType) =>
 
     if (!response.ok) {
       outputTextElement.innerText = `Lỗi HTTP: ${response.status}`;
+      return;
     }
 
     let result = await response.json();
@@ -150,7 +146,7 @@ const translateWithGroq = async (text, apiKey, outputTextElement, promptType) =>
       result.choices.forEach(element => {
         translatedText += element.message.content;
       });
-      outputTextElement.innerText = translatedText; // 🟢 Cập nhật popup với bản dịch
+      outputTextElement.innerText = translatedText;
     } else {
       outputTextElement.innerText = "Lỗi: API không trả về kết quả hợp lệ.";
     }
@@ -166,48 +162,66 @@ const translateText = async (promptType) => {
 
   const key = document.getElementById("inputKey").value;
   if (key.trim() === '') {
-    outputTextElement.innerHTML = 'Vui lòng nhập key Gemini.';
+    outputTextElement.innerHTML = 'Vui lòng nhập API key.';
     return;
   }
 
   const inputText = inputTextElement.value;
   if (inputText.trim() === '') {
-    outputTextElement.innerHTML = 'Vui lòng nhập tiếng Trung.';
+    outputTextElement.innerHTML = 'Vui lòng nhập văn bản cần dịch.';
     return;
   }
+
   if (document.getElementById('select-ai-type').value == "0") {
-    translateWithGemini(inputText, key, outputTextElement, promptType);
+    await translateWithGemini(inputText, key, outputTextElement, promptType);
   } else {
-    translateWithGroq(inputText, key, outputTextElement, promptType);
+    await translateWithGroq(inputText, key, outputTextElement, promptType);
   }
+
+  gotoOutput();
+}
+
+const gotoOutput = () => {
+  document.getElementById("outputText").scrollIntoView({
+    behavior: "smooth", // cuộn mượt
+    block: "center"     // căn giữa màn hình (có thể là 'start' | 'end' | 'nearest')
+  });
 }
 
 const copyText = () => {
   const outputTextElement = document.getElementById('outputText');
-  const range = document.createRange();
-  range.selectNode(outputTextElement);
-  window.getSelection().removeAllRanges();
-  window.getSelection().addRange(range);
-  document.execCommand('copy');
-  window.getSelection().removeAllRanges();
+  const text = outputTextElement.innerText;
 
-  showCopyMessage();  // Hiển thị thông báo khi đã sao chép
+  if (text.trim() === '' || text.includes('Vui lòng nhập') || text.includes('Lỗi')) {
+    showCopyMessage('Không có nội dung để copy!', 'error');
+    return;
+  }
+
+  navigator.clipboard.writeText(text).then(() => {
+    showCopyMessage('Đã copy thành công!', 'success');
+  }).catch(() => {
+    // Fallback method
+    const range = document.createRange();
+    range.selectNode(outputTextElement);
+    window.getSelection().removeAllRanges();
+    window.getSelection().addRange(range);
+    document.execCommand('copy');
+    window.getSelection().removeAllRanges();
+    showCopyMessage('Đã copy thành công!', 'success');
+  });
 }
 
-const showCopyMessage = () => {
+const showCopyMessage = (message, type = 'success') => {
   const copyMessageElement = document.getElementById('copyMessage');
-  copyMessageElement.textContent = 'Đã sao chép!';
+  copyMessageElement.textContent = message;
+  copyMessageElement.style.color = type === 'success' ? '#28a745' : '#dc3545';
+
+  setTimeout(() => {
+    copyMessageElement.textContent = '';
+  }, 3000);
 }
 
 const clearCopyMessage = () => {
   const copyMessageElement = document.getElementById('copyMessage');
   copyMessageElement.textContent = '';
-}
-
-const toExt = () => {
-  if (location.href.endsWith(".html")) {
-    location.href = "/ext.html"
-  } else {
-    location.href = location.href + "ext.html"
-  }
 }
