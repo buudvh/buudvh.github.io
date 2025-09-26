@@ -109,13 +109,18 @@ const translateWithGroq = async (text, apiKey, outputTextElement, promptType) =>
   let url = `https://api.groq.com/openai/v1/chat/completions`;
 
   let requestBody = {
-    "model": "meta-llama/llama-4-maverick-17b-128e-instruct",
+    "model": "groq/compound",
     "messages": [
       {
         "role": "user",
         "content": createPrompt(text, promptType),
       }
-    ]
+    ],
+    "temperature": 1,
+    "max_completion_tokens": 1024,
+    "top_p": 1,
+    "stream": true,
+    "stop": null
   };
 
   let headers = {
