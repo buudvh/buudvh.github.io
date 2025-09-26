@@ -115,12 +115,7 @@ const translateWithGroq = async (text, apiKey, outputTextElement, promptType) =>
         "role": "user",
         "content": createPrompt(text, promptType),
       }
-    ],
-    "temperature": 1,
-    "max_completion_tokens": 1024,
-    "top_p": 1,
-    "stream": true,
-    "stop": null
+    ]
   };
 
   let headers = {
