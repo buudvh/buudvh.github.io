@@ -86,7 +86,8 @@ const translateWithGemini = async (text, apiKey, outputTextElement, promptType) 
     });
 
     if (!response.ok) {
-      outputTextElement.innerText = `Lỗi HTTP: ${response.status}`;
+      let data = await response.json()
+      outputTextElement.innerText = `Lỗi HTTP: ${response.status}\nMessage: ${data.error.message}`;
       return;
     }
 
